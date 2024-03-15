@@ -56,7 +56,7 @@ class CadastroController extends Controller
             $base64Image = $request->imagem;
             $data = substr($base64Image, strpos($base64Image, ',') + 1);
             $imageName = time() . '_' . Str::random(10) . '.jpg';
-            $imagePath = public_path('imagens/' . $imageName);
+            $imagePath = public_path($imageName);
 
          
             file_put_contents($imagePath, base64_decode($data));
