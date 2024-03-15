@@ -16,78 +16,73 @@ export default function FaceRecognition({ onRecognitionSuccess }) {
                 faceapi.nets.faceExpressionNet.loadFromUri('/models'),
             ]);
             setModelsLoaded(true);
-            startVideo(); // Inicia automaticamente o vídeo após o carregamento dos modelos
         };
 
         loadModels();
     }, []);
 
+    useEffect(() => {
+        startVideo();
+    }, [currentCamera]);
+
     const startVideo = () => {
-        navigator.mediaDevices
-            .getUserMedia({ video: { facingMode: currentCamera } })
-            .then(stream => {
-                let video = videoRef.current;
-                if (video) {
-                    video.srcObject = stream;
-                    video.play();
-                }
-            })
-            .catch(err => {
-                console.error("error:", err);
-            });
+        if (videoRef.current) {
+            navigator.mediaDevices
+                .getUserMedia({ video: { facingMode: currentCamera } })
+                .then(stream => {
+                    videoRef.current.srcObject = stream;
+                })
+                .catch(err => {
+                    console.error("Error accessing camera:", err);
+                });
+        }
     };
 
-   
+    const toggleCamera = () => {
+        setCurrentCamera(currentCamera === 'user' ? 'environment' : 'user');
+    };
 
     const handleVideoOnPlay = () => {
         setInterval(faceMyDetect, 2500);
     };
 
     const faceMyDetect = async () => {
-        if (canvasRef && canvasRef.current && videoRef.current) {
+        if (canvasRef.current && videoRef.current) {
             const video = videoRef.current;
-            canvasRef.current.innerHTML = faceapi.createCanvasFromMedia(video);
-            const displaySize = {
-                width: video.clientWidth,
-                height: video.clientHeight
-            };
-    
-            faceapi.matchDimensions(canvasRef.current, displaySize);
-    
-            const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
-    
+            const displaySize = { width: video.videoWidth, height: video.videoHeight };
+            canvasRef.current.width = video.videoWidth;
+            canvasRef.current.height = video.videoHeight;
+
+            const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+                                                .withFaceLandmarks()
+                                                .withFaceExpressions();
+
             const resizedDetections = faceapi.resizeResults(detections, displaySize);
-    
-            if (canvasRef.current) {
-                const context = canvasRef.current.getContext('2d');
-                if (context) {
-                    context.clearRect(0, 0, displaySize.width, displaySize.height);
-                    faceapi.draw.drawDetections(canvasRef.current, resizedDetections);
-                    faceapi.draw.drawFaceLandmarks(canvasRef.current, resizedDetections);
-                    faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetections);
-    
-                    if (detections.length > 0) {
-                        const detection = detections[0]; // Apenas a primeira detecção
-                        const confidence = detection.detection.score;
-                        const box = detection.detection.box;
-    
-                        if (confidence >= 0.7) {
-                            const faceCanvas = document.createElement('canvas');
-                            faceCanvas.width = box.width;
-                            faceCanvas.height = box.height;
-                            const faceContext = faceCanvas.getContext('2d');
-    
-                            // Desenha apenas o rosto no novo canvas
-                            faceContext.drawImage(video, box.x, box.y, box.width, box.height, 0, 0, box.width, box.height);
-    
-                            // Obtém a imagem do rosto detectado como uma URL de dados
-                            const faceImageDataURL = faceCanvas.toDataURL('image/jpeg');
-    
-                            onRecognitionSuccess(faceImageDataURL);
-                        } else {
-                            console.log('Arrume a postura');
-                        }
-                    }
+
+            const context = canvasRef.current.getContext('2d');
+            context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+            faceapi.draw.drawDetections(canvasRef.current, resizedDetections);
+            faceapi.draw.drawFaceLandmarks(canvasRef.current, resizedDetections);
+            faceapi.draw.drawFaceExpressions(canvasRef.current, resizedDetections);
+
+            if (detections.length > 0) {
+                const detection = detections[0];
+                const confidence = detection.detection.score;
+
+                if (confidence >= 0.7) {
+                    const faceCanvas = document.createElement('canvas');
+                    faceCanvas.width = detection.detection.box.width;
+                    faceCanvas.height = detection.detection.box.height;
+                    const faceContext = faceCanvas.getContext('2d');
+
+                    faceContext.drawImage(video, detection.detection.box.x, detection.detection.box.y,
+                        detection.detection.box.width, detection.detection.box.height, 0, 0,
+                        detection.detection.box.width, detection.detection.box.height);
+
+                    const faceImageDataURL = faceCanvas.toDataURL('image/jpeg');
+                    onRecognitionSuccess(faceImageDataURL);
+                } else {
+                    console.log('Arrume a postura');
                 }
             }
         }
@@ -96,9 +91,9 @@ export default function FaceRecognition({ onRecognitionSuccess }) {
     return (
         <div className="flex justify-center">
             <div className="relative">
-                <video ref={videoRef} onPlay={handleVideoOnPlay} className="rounded-lg w-full h-auto" />
+                <video ref={videoRef} onPlay={handleVideoOnPlay} className="rounded-lg w-full h-auto" autoPlay playsInline />
                 <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-               
+                <button onClick={toggleCamera} className="absolute bottom-2 right-2 bg-white p-2 rounded-lg shadow">Toggle Camera</button>
             </div>
         </div>
     );
