@@ -58,9 +58,9 @@ class CadastroController extends Controller
             $base64Image = $request->imagem;
             $data = substr($base64Image, strpos($base64Image, ',') + 1);
             $imageName = time() . '_' . Str::random(10) . '.jpg';
-    
+            $file_content = base64_decode($request->imagem);
+            Storage::disk('public')->put($imageName, $file_content);
 
-            Storage::put('public/' . $imageName, $data);
             
 
             $funcionario = new Funcionarios();

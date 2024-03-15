@@ -34,7 +34,7 @@ export default function Dashboard({ auth, successMessage, funcionarios }) {
                                                 </Link>
                                             </div>
                                             <div>
-                                                <img src={`/storage/${funcionario.imagem}`} alt="" className="w-20 h-20 rounded-full" />
+                                                <img src={`https://reconhecimento-facial-production.up.railway.app/storage/${funcionario.imagem}`} alt="" className="w-20 h-20 rounded-full" />
                                                 
                                             </div>
                                         </div>
