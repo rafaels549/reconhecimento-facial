@@ -60,8 +60,7 @@ class CadastroController extends Controller
             $imageName = time() . '_' . Str::random(10) . '.jpg';
     
 
-
-    Storage::putFileAs('public', $base64Image, $imageName);
+            Storage::put('public/' . $imageName, $data);
             
 
             $funcionario = new Funcionarios();
