@@ -96,7 +96,7 @@ export default function FaceRecognition({ onRecognitionSuccess }) {
             <div className="relative">
                 <video ref={videoRef} onPlay={handleVideoOnPlay} className="rounded-lg w-full h-auto" autoPlay playsInline />
                 <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-                <button onClick={toggleCamera} className="absolute bottom-2 right-2 bg-white p-2 rounded-lg shadow">Toggle Camera</button>
+               
             </div>
         </div>
     );
