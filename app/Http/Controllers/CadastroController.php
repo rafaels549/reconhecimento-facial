@@ -57,7 +57,10 @@ class CadastroController extends Controller
             $data = substr($base64Image, strpos($base64Image, ',') + 1);
             $imageName = time() . '_' . Str::random(10) . '.jpg';
             $imagePath = public_path('imagens/' . $imageName);
+
+         
             file_put_contents($imagePath, base64_decode($data));
+            
 
             $funcionario = new Funcionarios();
             $funcionario->user_id = auth()->user()->id;
