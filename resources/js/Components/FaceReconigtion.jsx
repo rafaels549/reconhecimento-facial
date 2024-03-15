@@ -37,10 +37,7 @@ export default function FaceRecognition({ onRecognitionSuccess }) {
             });
     };
 
-    const toggleCamera = () => {
-        setCurrentCamera(currentCamera === 'user' ? 'environment' : 'user');
-        startVideo();
-    };
+   
 
     const handleVideoOnPlay = () => {
         setInterval(faceMyDetect, 2500);
@@ -101,7 +98,7 @@ export default function FaceRecognition({ onRecognitionSuccess }) {
             <div className="relative">
                 <video ref={videoRef} onPlay={handleVideoOnPlay} className="rounded-lg w-full h-auto" />
                 <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-                <button onClick={toggleCamera} className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white p-2 rounded-lg shadow">Virar</button>
+               
             </div>
         </div>
     );
