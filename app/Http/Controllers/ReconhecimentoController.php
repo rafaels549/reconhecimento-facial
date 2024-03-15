@@ -58,10 +58,12 @@ class ReconhecimentoController extends Controller
         
                 $data = substr($base64Image, strpos($base64Image, ',') + 1);
                 
-                $imageName = time() . '_' . Str::random(10) . '.jpg'; 
+           
             
                 
-                Storage::put('public/' . $imageName, $data);
+                $imageName = time() . '_' . Str::random(10) . '.jpeg';
+                $file_content = base64_decode($data);
+                Storage::disk('public')->put($imageName, $file_content);
 
              
                 if (!empty($result['FaceMatches'])) {
