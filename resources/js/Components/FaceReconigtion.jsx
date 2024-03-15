@@ -6,6 +6,7 @@ export default function FaceRecognition({ onRecognitionSuccess }) {
     const [currentCamera, setCurrentCamera] = useState('user');
     const videoRef = useRef();
     const canvasRef = useRef();
+    let mediaStream = null;
 
     useEffect(() => {
         const loadModels = async () => {
@@ -28,9 +29,11 @@ export default function FaceRecognition({ onRecognitionSuccess }) {
     const startVideo = () => {
         if (videoRef.current) {
             navigator.mediaDevices
-                .getUserMedia({ video: { facingMode: currentCamera } })
+                .getUserMedia({ video: { facingMode: "environment"} })
                 .then(stream => {
+                    mediaStream = stream;
                     videoRef.current.srcObject = stream;
+                    videoRef.current.play();
                 })
                 .catch(err => {
                     console.error("Error accessing camera:", err);
@@ -38,9 +41,9 @@ export default function FaceRecognition({ onRecognitionSuccess }) {
         }
     };
 
-    const toggleCamera = () => {
-        setCurrentCamera(currentCamera === 'user' ? 'environment' : 'user');
-    };
+
+
+  
 
     const handleVideoOnPlay = () => {
         setInterval(faceMyDetect, 2500);
