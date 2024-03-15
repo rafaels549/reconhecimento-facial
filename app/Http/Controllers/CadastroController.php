@@ -57,8 +57,8 @@ class CadastroController extends Controller
             // Se não houver erros de validação, prosseguir com o cadastro
             $base64Image = $request->imagem;
             $data = substr($base64Image, strpos($base64Image, ',') + 1);
-            $imageName = time() . '_' . Str::random(10) . '.jpg';
-            $file_content = base64_decode($request->imagem);
+            $imageName = time() . '_' . Str::random(10) . '.jpeg';
+            $file_content = base64_decode($data);
             Storage::disk('public')->put($imageName, $file_content);
 
             
