@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Aws\Rekognition\RekognitionClient;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Scan;
 use Carbon\Carbon;
@@ -58,9 +59,9 @@ class ReconhecimentoController extends Controller
                 $data = substr($base64Image, strpos($base64Image, ',') + 1);
                 
                 $imageName = time() . '_' . Str::random(10) . '.jpg'; 
-                $imagePath = public_path($imageName);
+            
                 
-                file_put_contents($imagePath, base64_decode($data));
+                Storage::put('public/' . $imageName, $data);
 
              
                 if (!empty($result['FaceMatches'])) {

@@ -144,7 +144,7 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                         </ul>
                                     </td>
                                     <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
-                                        <img src={`/${funcionario.imagem}`} alt="Foto Registrada" />
+                                        <img src={`/storage/${funcionario.imagem}`} alt="Foto Registrada" />
                                     </td>
                                 </tr>
                             ))}
@@ -226,10 +226,10 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                                 </ul>
                                             </td>
                                             <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
-                                                <img src={`/${funcionario.imagem}`} alt="Foto Registrada" />
+                                                <img src={`/storage/${funcionario.imagem}`} alt="Foto Registrada" />
                                             </td>
                                             <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
-                                                <img src={`/${scan.imagem}`} alt="Foto do Ponto" />
+                                                <img src={`/storage/${scan.imagem}`} alt="Foto do Ponto" />
                                             </td>
                                             <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
                                                 {dayjs(scan.created_at).format(' HH:mm')}
