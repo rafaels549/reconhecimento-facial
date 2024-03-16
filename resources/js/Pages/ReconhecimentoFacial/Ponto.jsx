@@ -174,7 +174,7 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                         <tbody>
                             { funcionariosEscaneados.map((funcionario, index) => (
                                 <React.Fragment key={funcionario.id}>
-                                    {funcionario.scans.map((scan, scanIndex) => (
+                                {typeof funcionario.scans === 'object' && Object.keys(funcionario.scans).map((scanKey, scanIndex) => (
                                         <tr key={scanIndex} style={{ border: '1px solid #ddd' }}>
                                             <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>{funcionario.name}</td>
                                             <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>{funcionario.cargo}</td>
@@ -229,7 +229,70 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                                 <img src={`https://reconhecimento-facial-production.up.railway.app/storage/${funcionario.imagem}`} alt="Foto Registrada" />
                                             </td>
                                             <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
-                                                <img src={`https://reconhecimento-facial-production.up.railway.app/storage/${scan.imagem}`} alt="Foto do Ponto" />
+                                                <img src={`https://reconhecimento-facial-production.up.railway.app/storage/${funcionario.scans[scanKey].imagem}`} alt="Foto do Ponto" />
+                                            </td>
+                                            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
+                                                {dayjs(funcionario.scans[scanKey].created_at).format(' HH:mm')}
+                                            </td>
+                                        </tr>
+                                    ))}
+
+                               {Array.isArray(funcionario.scans) && funcionario.scans.map((scan, scanIndex) => (
+                                        <tr key={scanIndex} style={{ border: '1px solid #ddd' }}>
+                                            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>{funcionario.name}</td>
+                                            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>{funcionario.cargo}</td>
+                                            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
+                                                <ul style={{ listStyleType: 'none', margin: 0, padding: 0 }}>
+                                                {Object.keys(funcionario.working_hours).map((day, intervaloIndex) => (
+                                                
+                                                <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
+                                                    {funcionario.specif_dates && (
+                                                        <div>
+                                                            <p>Dia de hora extra</p>
+                                                        </div>
+                                                    )}
+                                                    <strong>{funcionario.working_hours[day].dia}</strong>
+                                                    <strong>Início do expediente:</strong> {funcionario.working_hours[day].start_hour}<br />
+                                                    {funcionario.working_hours[day].interval.map((intervalo, index) => (
+                                                        <React.Fragment key={index}>
+                                                            <strong>Início do intervalo:</strong> {intervalo.start}<br />
+                                                            <strong>Fim do intervalo:</strong>{intervalo.end}<br />
+                                                        </React.Fragment>
+                                                    ))}<br />
+                                                    <strong>Fim do expediente:</strong> {funcionario.working_hours[day].end_hour}
+                                                    {funcionario.specif_dates && Object.keys(funcionario.specif_dates).map((specificDate, specificIndex) => (
+                                                        <div key={specificIndex}>
+                                                            <strong>Início da Hora Extra:</strong> {funcionario.specif_dates[specificDate].start_hour}<br />
+                                                            <strong>Fim da Hora Extra:</strong> {funcionario.specif_dates[specificDate].end_hour}<br />
+                                                        </div>
+                                                    ))}
+                                           
+                                                </li>
+                                            ))}
+                                                              { Object.keys(funcionario.specif_dates).map((day, intervaloIndex) => (
+                                                
+                                                <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
+                                                  
+                                                    <strong>{funcionario.specif_dates[day].date}</strong>
+                                                    <strong>Início do expediente:</strong> {funcionario.specif_dates[day].start_hour}<br />
+                                                    {JSON.parse(funcionario.specif_dates[day].interval).map((intervalo, index) => (
+                                                        <React.Fragment key={index}>
+                                                            <strong>Início do intervalo:</strong> {intervalo.start}<br />
+                                                            <strong>Fim do intervalo:</strong>{intervalo.end}<br />
+                                                        </React.Fragment>
+                                                    ))}<br />
+                                                    <strong>Fim do expediente:</strong> {funcionario.specif_dates[day].end_hour}
+                                                  
+                                           
+                                                </li>
+                                            ))}
+                                                </ul>
+                                            </td>
+                                            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
+                                                <img src={`https://reconhecimento-facial-production.up.railway.app/storage/${funcionario.imagem}`} alt="Foto Registrada" />
+                                            </td>
+                                            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
+                                                <img src={`https://reconhecimento-facial-production.up.railway.app/storage/${scan.imagem}${scan.imagem}`} alt="Foto do Ponto" />
                                             </td>
                                             <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
                                                 {dayjs(scan.created_at).format(' HH:mm')}
