@@ -97,7 +97,7 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                     <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
                                         <ul style={{ listStyleType: 'none', margin: 0, padding: 0 }}>
                                        
-                                            {Object.keys(funcionario.working_hours).map((day, intervaloIndex) => (
+                                          {funcionario.working_hours && Object.keys(funcionario.working_hours).map((day, intervaloIndex) => (
                                                 
                                                 <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
                                                     {funcionario.specif_dates && (
@@ -107,7 +107,7 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                                     )}
                                                     <strong>{funcionario.working_hours[day].dia}</strong>
                                                     <strong>Início do expediente:</strong> {funcionario.working_hours[day].start_hour}<br />
-                                                    {funcionario.working_hours[day].interval.map((intervalo, index) => (
+                                                    {funcionario.working_hours[day].interval && funcionario.working_hours[day].interval.map((intervalo, index) => (
                                                         <React.Fragment key={index}>
                                                             <strong>Início do intervalo:</strong> {intervalo.start}<br />
                                                             <strong>Fim do intervalo:</strong>{intervalo.end}<br />
@@ -120,22 +120,40 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                                             <strong>Fim da Hora Extra:</strong> {funcionario.specif_dates[specificDate].end_hour}<br />
                                                         </div>
                                                     ))}
+                                                  
                                            
                                                 </li>
                                             ))}
-                                           { Object.keys(funcionario.specif_dates).map((day, intervaloIndex) => (
+                                        {funcionario.specif_dates && typeof funcionario.specif_dates === 'object' && Object.keys(funcionario.specif_dates).map((day, intervaloIndex) => (
                                                 
                                                 <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
                                                   
                                                     <strong>{funcionario.specif_dates[day].date}</strong>
                                                     <strong>Início do expediente:</strong> {funcionario.specif_dates[day].start_hour}<br />
-                                                    {JSON.parse(funcionario.specif_dates[day].interval).map((intervalo, index) => (
+                                                    {JSON.parse(funcionario.specif_dates[day].interval) && JSON.parse(funcionario.specif_dates[day].interval).map((intervalo, index) => (
                                                         <React.Fragment key={index}>
                                                             <strong>Início do intervalo:</strong> {intervalo.start}<br />
                                                             <strong>Fim do intervalo:</strong>{intervalo.end}<br />
                                                         </React.Fragment>
                                                     ))}<br />
                                                     <strong>Fim do expediente:</strong> {funcionario.specif_dates[day].end_hour}
+                                                  
+                                           
+                                                </li>
+                                            ))}
+                                          {funcionario.specif_dates && Array.isArray(funcionario.specif_dates) && funcionario.specif_dates.map((date, intervaloIndex) => (
+                                                
+                                                <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
+                                                  
+                                                    <strong>{date.date}</strong>
+                                                    <strong>Início do expediente:</strong> {date.start_hour}<br />
+                                                    {JSON.parse(date.interval) && JSON.parse(date.interval).map((intervalo, index) => (
+                                                        <React.Fragment key={index}>
+                                                            <strong>Início do intervalo:</strong> {intervalo.start}<br />
+                                                            <strong>Fim do intervalo:</strong>{intervalo.end}<br />
+                                                        </React.Fragment>
+                                                    ))}<br />
+                                                    <strong>Fim do expediente:</strong> {date.end_hour}
                                                   
                                            
                                                 </li>
@@ -180,7 +198,7 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                             <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>{funcionario.cargo}</td>
                                             <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
                                                 <ul style={{ listStyleType: 'none', margin: 0, padding: 0 }}>
-                                                {Object.keys(funcionario.working_hours).map((day, intervaloIndex) => (
+                                                {funcionario.working_hours && Object.keys(funcionario.working_hours).map((day, intervaloIndex) => (
                                                 
                                                 <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
                                                     {funcionario.specif_dates && (
@@ -190,7 +208,7 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                                     )}
                                                     <strong>{funcionario.working_hours[day].dia}</strong>
                                                     <strong>Início do expediente:</strong> {funcionario.working_hours[day].start_hour}<br />
-                                                    {funcionario.working_hours[day].interval.map((intervalo, index) => (
+                                                    {funcionario.working_hours[day].interval && funcionario.working_hours[day].interval.map((intervalo, index) => (
                                                         <React.Fragment key={index}>
                                                             <strong>Início do intervalo:</strong> {intervalo.start}<br />
                                                             <strong>Fim do intervalo:</strong>{intervalo.end}<br />
@@ -203,22 +221,40 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                                             <strong>Fim da Hora Extra:</strong> {funcionario.specif_dates[specificDate].end_hour}<br />
                                                         </div>
                                                     ))}
+                                                  
                                            
                                                 </li>
                                             ))}
-                                                              { Object.keys(funcionario.specif_dates).map((day, intervaloIndex) => (
+                                        {funcionario.specif_dates && typeof funcionario.specif_dates === 'object' && Object.keys(funcionario.specif_dates).map((day, intervaloIndex) => (
                                                 
                                                 <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
                                                   
                                                     <strong>{funcionario.specif_dates[day].date}</strong>
                                                     <strong>Início do expediente:</strong> {funcionario.specif_dates[day].start_hour}<br />
-                                                    {JSON.parse(funcionario.specif_dates[day].interval).map((intervalo, index) => (
+                                                    {JSON.parse(funcionario.specif_dates[day].interval) && JSON.parse(funcionario.specif_dates[day].interval).map((intervalo, index) => (
                                                         <React.Fragment key={index}>
                                                             <strong>Início do intervalo:</strong> {intervalo.start}<br />
                                                             <strong>Fim do intervalo:</strong>{intervalo.end}<br />
                                                         </React.Fragment>
                                                     ))}<br />
                                                     <strong>Fim do expediente:</strong> {funcionario.specif_dates[day].end_hour}
+                                                  
+                                           
+                                                </li>
+                                            ))}
+                                          {funcionario.specif_dates && Array.isArray(funcionario.specif_dates) && funcionario.specif_dates.map((date, intervaloIndex) => (
+                                                
+                                                <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
+                                                  
+                                                    <strong>{date.date}</strong>
+                                                    <strong>Início do expediente:</strong> {date.start_hour}<br />
+                                                    {JSON.parse(date.interval) && JSON.parse(date.interval).map((intervalo, index) => (
+                                                        <React.Fragment key={index}>
+                                                            <strong>Início do intervalo:</strong> {intervalo.start}<br />
+                                                            <strong>Fim do intervalo:</strong>{intervalo.end}<br />
+                                                        </React.Fragment>
+                                                    ))}<br />
+                                                    <strong>Fim do expediente:</strong> {date.end_hour}
                                                   
                                            
                                                 </li>
@@ -236,6 +272,7 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                             </td>
                                         </tr>
                                     ))}
+                                    
 
                                {Array.isArray(funcionario.scans) && funcionario.scans.map((scan, scanIndex) => (
                                         <tr key={scanIndex} style={{ border: '1px solid #ddd' }}>
@@ -243,7 +280,7 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                             <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>{funcionario.cargo}</td>
                                             <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #ddd' }}>
                                                 <ul style={{ listStyleType: 'none', margin: 0, padding: 0 }}>
-                                                {Object.keys(funcionario.working_hours).map((day, intervaloIndex) => (
+                                                {funcionario.working_hours && Object.keys(funcionario.working_hours).map((day, intervaloIndex) => (
                                                 
                                                 <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
                                                     {funcionario.specif_dates && (
@@ -253,7 +290,7 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                                     )}
                                                     <strong>{funcionario.working_hours[day].dia}</strong>
                                                     <strong>Início do expediente:</strong> {funcionario.working_hours[day].start_hour}<br />
-                                                    {funcionario.working_hours[day].interval.map((intervalo, index) => (
+                                                    {funcionario.working_hours[day].interval && funcionario.working_hours[day].interval.map((intervalo, index) => (
                                                         <React.Fragment key={index}>
                                                             <strong>Início do intervalo:</strong> {intervalo.start}<br />
                                                             <strong>Fim do intervalo:</strong>{intervalo.end}<br />
@@ -266,16 +303,17 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                                             <strong>Fim da Hora Extra:</strong> {funcionario.specif_dates[specificDate].end_hour}<br />
                                                         </div>
                                                     ))}
+                                                  
                                            
                                                 </li>
                                             ))}
-                                                              { Object.keys(funcionario.specif_dates).map((day, intervaloIndex) => (
+                                        {funcionario.specif_dates && typeof funcionario.specif_dates === 'object' && Object.keys(funcionario.specif_dates).map((day, intervaloIndex) => (
                                                 
                                                 <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
                                                   
                                                     <strong>{funcionario.specif_dates[day].date}</strong>
                                                     <strong>Início do expediente:</strong> {funcionario.specif_dates[day].start_hour}<br />
-                                                    {JSON.parse(funcionario.specif_dates[day].interval).map((intervalo, index) => (
+                                                    {JSON.parse(funcionario.specif_dates[day].interval) && JSON.parse(funcionario.specif_dates[day].interval).map((intervalo, index) => (
                                                         <React.Fragment key={index}>
                                                             <strong>Início do intervalo:</strong> {intervalo.start}<br />
                                                             <strong>Fim do intervalo:</strong>{intervalo.end}<br />
@@ -285,6 +323,29 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                                   
                                            
                                                 </li>
+                                            ))}
+                                          {funcionario.specif_dates && Array.isArray(funcionario.specif_dates) && funcionario.specif_dates.map((date, intervaloIndex) => (
+                                                
+                                                <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
+                                                   {date.option == "horaExtra" && (
+                                                        <div>
+                                                            <p>Dia de hora extra</p>
+                                                        </div>
+                                                    )}
+                                                    <strong>{date.date}</strong>
+                                                    <strong>Início do expediente:</strong> {date.start_hour}<br />
+                                                    {JSON.parse(date.interval) && JSON.parse(date.interval).map((intervalo, index) => (
+                                                        <React.Fragment key={index}>
+                                                            <strong>Início do intervalo:</strong> {intervalo.start}<br />
+                                                            <strong>Fim do intervalo:</strong>{intervalo.end}<br />
+                                                        </React.Fragment>
+                                                    ))}<br />
+                                                    <strong>Fim do expediente:</strong> {date.end_hour}
+                                                  
+                                           
+                                                </li>
+
+                                                       
                                             ))}
                                                 </ul>
                                             </td>
@@ -299,6 +360,8 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                             </td>
                                         </tr>
                                     ))}
+
+                                    
                                 </React.Fragment>
                             ))}
                         </tbody>
