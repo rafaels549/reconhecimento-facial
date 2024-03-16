@@ -49,7 +49,7 @@ class ReconhecimentoController extends Controller
                         'Bytes' => file_get_contents($request->input('imagem')) // Imagem de origem (arquivo bytes)
                     ],
                     'TargetImage' => [
-                        'Bytes' => file_get_contents(storage_path('app/public/' . $funcionario->imagem)) // Imagem de destino (arquivo bytes)
+                        'Bytes' => file_get_contents('https://reconhecimento-facial-production.up.railway.app/storage/' . $funcionario->imagem) // Imagem de destino (arquivo bytes)
                     ]
                 ]);
           
