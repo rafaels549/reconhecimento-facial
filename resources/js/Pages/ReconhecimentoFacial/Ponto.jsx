@@ -100,7 +100,7 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                           {funcionario.working_hours && Object.keys(funcionario.working_hours).map((day, intervaloIndex) => (
                                                 
                                                 <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
-                                                    {funcionario.specif_dates && (
+                                                    {funcionario.specif_dates.lenght > 0 && (
                                                         <div>
                                                             <p>Dia de hora extra</p>
                                                         </div>
@@ -127,7 +127,11 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                         {funcionario.specif_dates && typeof funcionario.specif_dates === 'object' && Object.keys(funcionario.specif_dates).map((day, intervaloIndex) => (
                                                 
                                                 <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
-                                                  
+                                                     {funcionario.specif_dates[day].option == "horaExtra" && (
+                                                        <div>
+                                                            <p>Dia de hora extra</p>
+                                                        </div>
+                                                    )}
                                                     <strong>{funcionario.specif_dates[day].date}</strong>
                                                     <strong>Início do expediente:</strong> {funcionario.specif_dates[day].start_hour}<br />
                                                     {JSON.parse(funcionario.specif_dates[day].interval) && JSON.parse(funcionario.specif_dates[day].interval).map((intervalo, index) => (
@@ -144,7 +148,11 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                           {funcionario.specif_dates && Array.isArray(funcionario.specif_dates) && funcionario.specif_dates.map((date, intervaloIndex) => (
                                                 
                                                 <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
-                                                  
+                                                      {date.option =="horaExtra" && (
+                                                        <div>
+                                                            <p>Dia de hora extra</p>
+                                                        </div>
+                                                    )}
                                                     <strong>{date.date}</strong>
                                                     <strong>Início do expediente:</strong> {date.start_hour}<br />
                                                     {JSON.parse(date.interval) && JSON.parse(date.interval).map((intervalo, index) => (
@@ -204,7 +212,7 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                                 {funcionario.working_hours && Object.keys(funcionario.working_hours).map((day, intervaloIndex) => (
                                                 
                                                 <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
-                                                    {funcionario.specif_dates && (
+                                                    {funcionario.specif_dates.lenght > 0 && (
                                                         <div>
                                                             <p>Dia de hora extra</p>
                                                         </div>
@@ -231,7 +239,11 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                         {funcionario.specif_dates && typeof funcionario.specif_dates === 'object' && Object.keys(funcionario.specif_dates).map((day, intervaloIndex) => (
                                                 
                                                 <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
-                                                  
+                                                      {funcionario.specif_dates[day].option == "horaExtra" && (
+                                                        <div>
+                                                            <p>Dia de hora extra</p>
+                                                        </div>
+                                                    )}
                                                     <strong>{funcionario.specif_dates[day].date}</strong>
                                                     <strong>Início do expediente:</strong> {funcionario.specif_dates[day].start_hour}<br />
                                                     {JSON.parse(funcionario.specif_dates[day].interval) && JSON.parse(funcionario.specif_dates[day].interval).map((intervalo, index) => (
@@ -248,7 +260,7 @@ export default function Dashboard({ auth, funcionariosNaoEscaneados, funcionario
                                           {funcionario.specif_dates && Array.isArray(funcionario.specif_dates) && funcionario.specif_dates.map((date, intervaloIndex) => (
                                                 
                                                 <li key={intervaloIndex} style={{ padding: '4px 0', textAlign: 'left' }}>
-                                                   {date.option == "horaExtra" && (
+                                                   {date.option =="horaExtra" && (
                                                         <div>
                                                             <p>Dia de hora extra</p>
                                                         </div>
